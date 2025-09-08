@@ -9,6 +9,7 @@
 4. 在每个 `.mdc` 文件的顶部插入一个 YAML Front Matter，其中包含元数据。
 5. 将生成的所有 `.mdc` 文件保存到项目根目录下的 `.cursor/rules/` 目录中。
 """
+
 import logging
 import os
 from pathlib import Path
@@ -89,7 +90,7 @@ def create_mdc_rule_file(md_file_path: Path, output_dir: Path) -> None:
         # 3. 构建 YAML Front Matter
         # description 暂时留空，可以让用户在 Cursor IDE 中自行填写
         globs_list = _get_globs_for_file(md_file_path)
-        globs_str = str(globs_list).replace("'", '"') # 转为json格式
+        globs_str = str(globs_list).replace("'", '"')  # 转为json格式
 
         yaml_front_matter = f"""---
 description: "{md_file_path.stem}"
@@ -107,7 +108,9 @@ alwaysApply: {str(always_apply).lower()}
 
         # 6. 写入文件
         output_filepath.write_text(mdc_content, encoding="utf-8")
-        logging.info(f"  - 已成功创建规则: '{output_filepath.name}' (alwaysApply: {always_apply})")
+        logging.info(
+            f"  - 已成功创建规则: '{output_filepath.name}' (alwaysApply: {always_apply})"
+        )
 
     except Exception as e:
         logging.error(f"处理文件 {md_file_path.name} 时发生错误: {e}")
